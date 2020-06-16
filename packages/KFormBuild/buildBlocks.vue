@@ -20,6 +20,7 @@
         :dynamicData="dynamicData"
         :key="item.key"
         :record="item"
+        :formConfig="formConfig"
         :config="config"
       />
     </a-col>
@@ -39,6 +40,7 @@
       :dynamicData="dynamicData"
       :key="item.key"
       :record="item"
+      :formConfig="formConfig"
       :config="config"
     />
   </a-card>
@@ -70,6 +72,7 @@
           :dynamicData="dynamicData"
           :key="item.key"
           :record="item"
+          :formConfig="formConfig"
           :config="config"
         />
       </td>
@@ -85,6 +88,7 @@
     :dynamicData="dynamicData"
     :key="record.key"
     :record="record"
+    :formConfig="formConfig"
     :config="config"
   />
 </template>
@@ -101,9 +105,13 @@ export default {
       type: Object,
       required: true
     },
-    config: {
+    formConfig: {
       type: Object,
       required: true
+    },
+    config: {
+      type: Object,
+      default: () => ({})
     },
     dynamicData: {
       type: Object,

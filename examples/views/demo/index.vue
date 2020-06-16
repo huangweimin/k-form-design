@@ -1,6 +1,11 @@
 <template>
   <div>
-    <k-form-build :value="jsonData" ref="KFB" @submit="handleSubmit" />
+    <k-form-build
+      :value="jsonData"
+      ref="KFB"
+      :config="config"
+      @submit="handleSubmit"
+    />
     <button @click="getData">提交</button>
   </div>
 </template>
@@ -9,23 +14,61 @@ export default {
   name: "Demo",
   data() {
     return {
+      config: {
+        uploadFile: "", // 上传文件地址
+        uploadImage: "", // 上传图片地址
+        uploadFileName: "", // 上传文件name
+        uploadImageName: "", // 上传图片name
+        uploadFileData: { data: 223 }, // 上传文件额外参数
+        uploadImageData: { data: 223 }, // 上传图片额外参数
+        uploadFileHeaders: { data: 1545 }, // 上传文件请求头部
+        uploadImageHeaders: { data: 1545 } // 上传图片请求头部
+      },
       jsonData: {
         list: [
           {
-            type: "number",
-            label: "数字输入框",
+            type: "uploadFile",
+            label: "上传文件",
             options: {
-              width: "100%",
-              defaultValue: 0,
-              min: null,
-              max: null,
-              precision: 2,
-              step: 1,
+              defaultValue: "",
+              multiple: false,
               disabled: false,
-              placeholder: "请输入"
+              hidden: false,
+              drag: false,
+              downloadWay: "a",
+              dynamicFun: "",
+              width: "100%",
+              limit: 3,
+              data: "{}",
+              fileName: "file",
+              headers: {},
+              action: "http://cdn.kcz66.com/uploadFile.txt",
+              placeholder: "上传"
             },
-            model: "number_1586776385747",
-            key: "number_1586776385747",
+            model: "uploadFile_1591622045312",
+            key: "uploadFile_1591622045312",
+            rules: [{ required: false, message: "必填项" }]
+          },
+          {
+            type: "uploadImg",
+            label: "上传图片",
+            icon: "icon-image",
+            options: {
+              defaultValue: "",
+              multiple: false,
+              hidden: false,
+              disabled: false,
+              width: "100%",
+              data: "{}",
+              limit: 3,
+              placeholder: "上传",
+              fileName: "image",
+              headers: {},
+              action: "http://cdn.kcz66.com/upload-img.txt",
+              listType: "picture-card"
+            },
+            model: "uploadImg_1591622045790",
+            key: "uploadImg_1591622045790",
             rules: [{ required: false, message: "必填项" }]
           }
         ],
@@ -62,13 +105,6 @@ export default {
           console.log(err, "校验失败");
         });
     }
-  },
-  mounted() {
-    setTimeout(() => {
-      this.$refs.KFB.setData({
-        number_1586776385747: 12.898
-      });
-    }, 1000);
   }
 };
 </script>

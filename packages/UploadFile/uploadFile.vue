@@ -3,18 +3,19 @@
  * @Author: kcz
  * @Date: 2020-03-17 12:53:50
  * @LastEditors: kcz
- * @LastEditTime: 2020-03-29 22:03:27
+ * @LastEditTime: 2020-06-15 21:46:02
  -->
 <template>
   <div :style="{ width: record.options.width }">
     <a-upload
-      :disabled="record.options.disabled || parentDisabled"
       v-if="!record.options.drag"
-      :name="record.model"
+      :disabled="record.options.disabled || parentDisabled"
+      :name="config.uploadFileName || record.options.fileName"
+      :headers="config.uploadFileHeaders || record.options.headers"
+      :data="config.uploadFileData || optionsData"
+      :action="config.uploadFile || record.options.action"
       :multiple="record.options.multiple"
-      :data="optionsData"
       :fileList="fileList"
-      :action="record.options.action"
       @preview="handlePreview"
       @change="handleChange"
       :remove="remove"
@@ -30,11 +31,12 @@
     <a-upload-dragger
       v-else
       :disabled="record.options.disabled || parentDisabled"
-      :name="record.model"
+      :name="config.uploadFileName || record.options.fileName"
+      :headers="config.uploadFileHeaders || record.options.headers"
+      :data="config.uploadFileData || optionsData"
+      :action="config.uploadFile || record.options.action"
       :multiple="record.options.multiple"
       :fileList="fileList"
-      :data="optionsData"
-      :action="record.options.action"
       @preview="handlePreview"
       @change="handleChange"
       :remove="remove"
@@ -56,7 +58,7 @@
 export default {
   name: "KUploadFile",
   // eslint-disable-next-line vue/require-prop-types
-  props: ["record", "value", "parentDisabled"],
+  props: ["record", "value", "config", "parentDisabled", "dynamicData"],
   data() {
     return {
       fileList: []
@@ -125,9 +127,23 @@ export default {
     },
     handlePreview(file) {
       // 下载文件
-      this.getBlob(file.url || file.thumbUrl).then(blob => {
-        this.saveAs(blob, file.name);
-      });
+      let downloadWay = this.record.options.downloadWay;
+      let dynamicFun = this.record.options.dynamicFun;
+      if (downloadWay === "a") {
+        // 使用a标签下载
+        let a = document.createElement("a");
+        a.href = file.url || file.thumbUrl;
+        a.download = file.name;
+        a.click();
+      } else if (downloadWay === "ajax") {
+        // 使用ajax获取文件blob，并保持到本地
+        this.getBlob(file.url || file.thumbUrl).then(blob => {
+          this.saveAs(blob, file.name);
+        });
+      } else if (downloadWay === "dynamic") {
+        // 触发动态函数
+        this.dynamicData[dynamicFun](file);
+      }
     },
     /**
      * 获取 blob

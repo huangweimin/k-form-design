@@ -3,7 +3,7 @@
  * @Author: kcz
  * @Date: 2020-01-02 22:41:48
  * @LastEditors: kcz
- * @LastEditTime: 2020-04-12 23:29:40
+ * @LastEditTime: 2020-06-08 20:56:55
  -->
 <template>
   <a-form-item
@@ -28,8 +28,10 @@
         ].includes(record.type)
     "
     :label="record.label"
-    :label-col="config.layout === 'horizontal' ? config.labelCol : {}"
-    :wrapper-col="config.layout === 'horizontal' ? config.wrapperCol : {}"
+    :label-col="formConfig.layout === 'horizontal' ? formConfig.labelCol : {}"
+    :wrapper-col="
+      formConfig.layout === 'horizontal' ? formConfig.wrapperCol : {}
+    "
   >
     <!-- 单行文本 -->
     <a-input
@@ -276,6 +278,7 @@
       :style="`width:${record.options.width}`"
       :parentDisabled="disabled"
       :record="record"
+      :config="config"
       @change="handleChange($event, record.model)"
       v-decorator="[
         record.model,
@@ -290,6 +293,8 @@
       v-else-if="record.type === 'uploadFile'"
       :style="`width:${record.options.width}`"
       :record="record"
+      :config="config"
+      :dynamicData="dynamicData"
       :parentDisabled="disabled"
       @change="handleChange($event, record.model)"
       v-decorator="[
@@ -356,13 +361,13 @@
     v-else-if="record.type === 'batch' || record.type === 'editor'"
     :label="!record.options.showLabel ? '' : record.label"
     :label-col="
-      config.layout === 'horizontal' && record.options.showLabel
-        ? config.labelCol
+      formConfig.layout === 'horizontal' && record.options.showLabel
+        ? formConfig.labelCol
         : {}
     "
     :wrapper-col="
-      config.layout === 'horizontal' && record.options.showLabel
-        ? config.wrapperCol
+      formConfig.layout === 'horizontal' && record.options.showLabel
+        ? formConfig.wrapperCol
         : {}
     "
   >
@@ -372,6 +377,7 @@
       ref="KBatch"
       :style="`width:${record.options.width}`"
       :record="record"
+      :config="config"
       :parentDisabled="disabled"
       :dynamicData="dynamicData"
       @change="handleChange($event, record.model)"
@@ -405,8 +411,8 @@
   <a-form-item
     v-else-if="record.type === 'button'"
     :wrapper-col="
-      config.layout === 'horizontal'
-        ? { ...config.wrapperCol, offset: config.labelCol.span }
+      formConfig.layout === 'horizontal'
+        ? { ...formConfig.wrapperCol, offset: formConfig.labelCol.span }
         : {}
     "
   >
@@ -458,7 +464,7 @@
     :disabled="disabled"
     :dynamicData="dynamicData"
     @change="handleChange($event, record.model)"
-    :config="config"
+    :formConfig="formConfig"
   />
 
   <div v-else>
@@ -498,18 +504,20 @@ export default {
     // 表单数组
     record: {
       type: Object,
-      default: () => {}
+      required: true
     },
     // form-item 宽度配置
-    config: {
+    formConfig: {
       type: Object,
       required: true
     },
+    config: {
+      type: Object,
+      default: () => ({})
+    },
     dynamicData: {
       type: Object,
-      default: () => {
-        return {};
-      }
+      default: () => ({})
     },
     disabled: {
       type: Boolean,
@@ -544,6 +552,9 @@ export default {
       // change事件
       this.$emit("change", value, key);
     }
+  },
+  mounted() {
+    console.log(this.config);
   }
 };
 </script>

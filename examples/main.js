@@ -2,18 +2,18 @@ import Vue from "vue";
 import App from "./App.vue";
 import router from "./router/";
 
+import antdv from "ant-design-vue";
+import "ant-design-vue/dist/antd.css";
+Vue.use(antdv);
+
 import {
   KFormDesign,
   KFormBuild,
   setFormDesignConfig
 } from "../packages/index";
+
 import Cmp from "./components/CustomComponent/index.vue";
-// let Cmp = {
-//   name: "cmp",
-//   render: function(h) {
-//     return h("div", "我是自定义组件");
-//   }
-// };
+
 setFormDesignConfig({
   title: "测试自定义字段",
   list: [
@@ -42,7 +42,13 @@ setFormDesignConfig({
     }
   ],
   uploadFile: "",
-  uploadImage: ""
+  uploadImage: "",
+  uploadFileName: "",
+  uploadImageName: "",
+  uploadFileData: { data: 1545 },
+  uploadImageData: { data: 1545 },
+  uploadFileHeaders: { data: 1545 },
+  uploadImageHeaders: { data: 1545 }
 });
 Vue.use(KFormDesign);
 Vue.use(KFormBuild);

@@ -278,14 +278,18 @@ export const basicsList = [
     label: "上传文件", // 标题文字
     icon: "icon-upload",
     options: {
-      defaultValue: "",
+      defaultValue: "[]",
       multiple: false,
       disabled: false,
       hidden: false, // 是否隐藏，false显示，true隐藏
       drag: false,
+      downloadWay: "a",
+      dynamicFun: "",
       width: "100%",
       limit: 3,
       data: "{}",
+      fileName: "file",
+      headers: {},
       action: "http://cdn.kcz66.com/uploadFile.txt",
       placeholder: "上传"
     },
@@ -303,7 +307,7 @@ export const basicsList = [
     label: "上传图片",
     icon: "icon-image",
     options: {
-      defaultValue: "",
+      defaultValue: "[]",
       multiple: false,
       hidden: false, // 是否隐藏，false显示，true隐藏
       disabled: false,
@@ -311,6 +315,8 @@ export const basicsList = [
       data: "{}",
       limit: 3,
       placeholder: "上传",
+      fileName: "image",
+      headers: {},
       action: "http://cdn.kcz66.com/upload-img.txt",
       listType: "picture-card"
     },

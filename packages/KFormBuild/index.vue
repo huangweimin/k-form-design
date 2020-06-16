@@ -17,8 +17,9 @@
         v-for="(record, index) in value.list"
         :record="record"
         :dynamicData="dynamicData"
+        :config="config"
         :disabled="disabled"
-        :config="value.config"
+        :formConfig="value.config"
         :key="index"
         @change="handleChange"
       />
@@ -50,9 +51,11 @@ export default {
     },
     dynamicData: {
       type: Object,
-      default: () => {
-        return {};
-      }
+      default: () => ({})
+    },
+    config: {
+      type: Object,
+      default: () => ({})
     },
     disabled: {
       type: Boolean,
@@ -64,9 +67,7 @@ export default {
     },
     defaultValue: {
       type: Object,
-      default: () => {
-        return {};
-      }
+      default: () => ({})
     }
   },
   components: {
@@ -146,6 +147,57 @@ export default {
           reject(err);
         }
       });
+    },
+
+    // 批量设置某个option的值
+    setOptions(fields, optionName, value) {
+      fields = new Set(fields);
+
+      // 递归遍历控件树
+      const traverse = array => {
+        array.forEach(element => {
+          if (fields.has(element.model)) {
+            element.options[optionName] = value;
+          }
+          if (element.type === "grid") {
+            // 栅格布局
+            element.columns.forEach(item => {
+              traverse(item.list);
+            });
+          } else if (element.type === "card") {
+            // 卡片布局
+            traverse(element.list);
+          } else if (element.type === "batch") {
+            // 动态表格
+            traverse(element.list);
+          }
+          if (element.type === "table") {
+            // 表格布局
+            element.trs.forEach(item => {
+              item.tds.forEach(val => {
+                traverse(val.list);
+              });
+            });
+          }
+        });
+      };
+      traverse(this.value.list);
+    },
+    // 隐藏表单字段
+    hide(fields) {
+      this.setOptions(fields, "hidden", true);
+    },
+    // 显示表单字段
+    show(fields) {
+      this.setOptions(fields, "hidden", false);
+    },
+    // 禁用表单字段
+    disable(fields) {
+      this.setOptions(fields, "disabled", true);
+    },
+    // 启用表单字段
+    enable(fields) {
+      this.setOptions(fields, "disabled", false);
     },
     handleChange(value, key) {
       // 触发change事件
