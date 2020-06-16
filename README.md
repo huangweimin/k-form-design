@@ -2,10 +2,10 @@
 
 <p align="center">
   <a href="https://github.com/vuejs/vue">
-    <img src="https://img.shields.io/badge/vue-2.6.10-brightgreen.svg" alt="vue">
+    <img src="https://img.shields.io/badge/vue-2.6.11-brightgreen" alt="vue">
   </a>
   <a href="https://github.com/vueComponent/ant-design-vue">
-    <img src="https://img.shields.io/badge/Ant%20Design%20Vue-1.5.1-blue" alt="ant-design-vue">
+    <img src="https://img.shields.io/badge/Ant%20Design%20Vue-1.6.2-blue" alt="ant-design-vue">
   </a>
   <a href="https://github.com/Kchengz/k-form-design/blob/master/LICENSE">
     <img src="https://img.shields.io/github/license/mashape/apistatus.svg" alt="license">
@@ -15,6 +15,10 @@
 ![](http://cdn.kcz66.com/demo.gif)
 
 ## 在原作者原来的基础上做了一些修改，推荐优先使用原作者的包，如果我的一些修改是你所需要的，欢迎使用
+
+### 主要修改内容
+
+- ant-design-vue 依赖方式修改为单独引用，摘除掉项目中的直接依赖，避免项目使用ant-design-vue时重复资源加载
 
 ## 简介
 
