@@ -3,7 +3,7 @@
  * @Author: kcz
  * @Date: 2020-03-27 18:36:56
  * @LastEditors: kcz
- * @LastEditTime: 2020-06-08 20:45:45
+ * @LastEditTime: 2020-07-09 20:53:57
  -->
 <template>
   <a-form-model
@@ -19,10 +19,9 @@
       :dataSource="dynamicValidateForm.domains"
       bordered
       :scroll="{
-        x:
-          record.list.length * 190 +
-          80 +
-          (!record.options.hideSequence ? 60 : 0),
+        x: autoWidth
+          ? false
+          : listLength * 190 + 80 + (!record.options.hideSequence ? 60 : 0),
         y: record.options.scrollY
       }"
     >
@@ -62,7 +61,14 @@
 import KFormModelItem from "./module/KFormModelItem";
 export default {
   name: "KBatch",
-  props: ["record", "value", "dynamicData", "config", "parentDisabled"],
+  props: [
+    "record",
+    "value",
+    "dynamicData",
+    "config",
+    "parentDisabled",
+    "autoWidth"
+  ],
 
   components: {
     KFormModelItem
@@ -85,6 +91,9 @@ export default {
     };
   },
   computed: {
+    listLength() {
+      return this.record.list.filter(item => !item.options.hidden).length;
+    },
     columns() {
       let columns = [];
       if (!this.record.options.hideSequence) {
@@ -100,14 +109,21 @@ export default {
       }
 
       columns.push(
-        ...this.record.list.map((item, index) => {
-          return {
-            title: item.label,
-            dataIndex: item.key,
-            width: index === this.record.list.length - 1 ? "" : "190px",
-            scopedSlots: { customRender: item.key }
-          };
-        })
+        ...this.record.list
+          .filter(item => !item.options.hidden)
+          .map((item, index) => {
+            console.log("debug log --> ", item);
+            return {
+              title: item.label,
+              dataIndex: item.key,
+              width: this.autoWidth
+                ? "auto"
+                : index === this.record.list.length - 1
+                ? ""
+                : "190px",
+              scopedSlots: { customRender: item.key }
+            };
+          })
       );
 
       columns.push({
