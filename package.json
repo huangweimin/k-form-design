@@ -21,7 +21,7 @@
     "type": "git",
     "url": "https://github.com/callcter/k-form-design"
   },
-  "main": "lib/k-form-design.umd.min.js",
+  "main": "lib/k-form-design-mini.umd.min.js",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
