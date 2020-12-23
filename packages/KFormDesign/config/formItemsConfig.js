@@ -594,6 +594,7 @@ export const basicsList = [
       hidden: false, // 是否隐藏，false显示，true隐藏
       showLabel: false,
       hideSequence: false,
+      autoWidth: false,
       width: "100%"
     },
     customize: {

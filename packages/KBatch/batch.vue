@@ -19,7 +19,7 @@
       :dataSource="dynamicValidateForm.domains"
       bordered
       :scroll="{
-        x: autoWidth
+        x: record.options.autoWidth
           ? false
           : listLength * 190 + 80 + (!record.options.hideSequence ? 60 : 0),
         y: record.options.scrollY
@@ -61,27 +61,8 @@
 import KFormModelItem from "./module/KFormModelItem";
 export default {
   name: "KBatch",
-  props: [
-    "record",
-    "value",
-    "dynamicData",
-    "config",
-    "parentDisabled",
-    "autoWidth"
-  ],
-
   components: {
     KFormModelItem
-  },
-  watch: {
-    value: {
-      // value 需要深度监听及默认先执行handler函数
-      handler(val) {
-        this.dynamicValidateForm.domains = val || [];
-      },
-      immediate: true,
-      deep: true
-    }
   },
   data() {
     return {
@@ -90,6 +71,7 @@ export default {
       }
     };
   },
+  props: ["record", "value", "dynamicData", "config", "parentDisabled"],
   computed: {
     listLength() {
       return this.record.list.filter(item => !item.options.hidden).length;
@@ -116,7 +98,7 @@ export default {
             return {
               title: item.label,
               dataIndex: item.key,
-              width: this.autoWidth
+              width: this.record.options.autoWidth
                 ? "auto"
                 : index === this.record.list.length - 1
                 ? ""
@@ -140,6 +122,19 @@ export default {
     disabled() {
       return this.record.options.disabled || this.parentDisabled;
     }
+  },
+  watch: {
+    value: {
+      // value 需要深度监听及默认先执行handler函数
+      handler(val) {
+        this.dynamicValidateForm.domains = val || [];
+      },
+      immediate: true,
+      deep: true
+    }
+  },
+  created() {
+    console.log("debug log --> ", this.record);
   },
   methods: {
     validationSubform() {
