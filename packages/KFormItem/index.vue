@@ -396,23 +396,6 @@
         }
       ]"
     />
-    <!-- 富文本编辑器 -->
-    <KEditor
-      v-else
-      ref="KEditor"
-      :style="`width:${record.options.width}`"
-      :record="record"
-      :parentDisabled="disabled"
-      :dynamicData="dynamicData"
-      @change="handleChange($event, record.model)"
-      v-decorator="[
-        record.model,
-        {
-          initialValue: record.options.defaultValue,
-          rules: record.rules
-        }
-      ]"
-    />
   </a-form-item>
   <!-- button按钮 -->
   <a-form-item
@@ -501,7 +484,6 @@
 import customComponent from "./customComponent";
 
 import KBatch from "../KBatch";
-import KEditor from "../KEditor";
 import UploadFile from "../UploadFile";
 import UploadImg from "../UploadImg";
 import KDatePicker from "../KDatePicker";
@@ -535,7 +517,6 @@ export default {
   },
   components: {
     KBatch,
-    KEditor,
     UploadImg,
     UploadFile,
     KDatePicker,

@@ -1,6 +1,6 @@
 {
   "name": "k-form-design-callcter",
-  "version": "3.6.0",
+  "version": "3.6.1",
   "private": false,
   "description": "基于vue、ant-design-vue的表单设计器,可视化开发表单",
   "license": "MIT",
@@ -37,7 +37,6 @@
     "moment": "^2.24.0",
     "vue": "^2.6.10",
     "vue-codemirror-lite": "^1.0.4",
-    "vue-quill-editor": "^3.0.6",
     "vue-router": "^3.0.3",
     "vuedraggable": "^2.23.2"
   },

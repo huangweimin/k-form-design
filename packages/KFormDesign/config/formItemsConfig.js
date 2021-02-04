@@ -609,38 +609,6 @@ export const basicsList = [
     key: ""
   },
   {
-    type: "editor",
-    label: "富文本",
-    icon: "icon-LC_icon_edit_line_1",
-    list: [],
-    options: {
-      height: 300,
-      placeholder: "请输入",
-      defaultValue: "",
-      chinesization: true,
-      hidden: false, // 是否隐藏，false显示，true隐藏
-      disabled: false,
-      showLabel: false,
-      width: "100%"
-    },
-    customize: {
-      create: true, // 创建时显示
-      edit: true, // 编辑时显示
-      table: true, // 表格中显示
-      detail: true, // 详情中显示
-      search: false, // 搜索栏中显示
-      sort: false // 可排序
-    },
-    model: "",
-    key: "",
-    rules: [
-      {
-        required: false,
-        message: "必填项"
-      }
-    ]
-  },
-  {
     type: "switch", // 表单类型
     label: "开关", // 标题文字
     icon: "icon-kaiguan3",
